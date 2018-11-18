@@ -49,7 +49,7 @@ public class PhotoItemViewActivity extends AppCompatActivity {
         private ArrayList<String> _imagePaths;
 
         public ScreenSlidePagerAdapter(Activity activity, ArrayList<String> images) {
-                this.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               _activity = activity;
+                this._activity = activity;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          _activity = activity;
                 this._imagePaths =images;
         }
 
@@ -65,14 +65,17 @@ public class PhotoItemViewActivity extends AppCompatActivity {
 
             }
 
-            @NonNull
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                ((ViewPager) container).removeView((FrameLayout) object);
+
+            }
+                @NonNull
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
                 ImageView imageView;
                 Button button;
 
-                //TODO check this line
-                //LayoutInflater inflater = (LayoutInflater) _activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 final View pageView = LayoutInflater.from(container.getContext())
                         .inflate(R.layout.full_screen_image, container, false);
@@ -80,8 +83,8 @@ public class PhotoItemViewActivity extends AppCompatActivity {
                 if (pageView == null)
                     Toast.makeText(_activity, "NULL", Toast.LENGTH_LONG).show();
 
-                imageView = (ImageView) findViewById(R.id.photo);
-                button = (Button) findViewById(R.id.close);
+                imageView = (ImageView) pageView.findViewById(R.id.photo);
+                button = (Button) pageView.findViewById(R.id.close);
 
                 Transformation transformation = new RoundedTransformationBuilder()
                         .cornerRadiusDp(5)
@@ -90,6 +93,7 @@ public class PhotoItemViewActivity extends AppCompatActivity {
                         .oval(false)
                         .build();
 
+                Toast.makeText(_activity, "_imagePaths.get(position)" + _imagePaths.get(position).toString(), Toast.LENGTH_LONG).show();
                 Picasso.with(_activity).load(_imagePaths.get(position)).transform(transformation).into(imageView);
 
                 button.setOnClickListener(new View.OnClickListener() {
@@ -105,4 +109,6 @@ public class PhotoItemViewActivity extends AppCompatActivity {
         }
 
 
-}
+    }
+
+
