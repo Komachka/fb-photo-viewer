@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -21,6 +24,8 @@ import java.util.Locale;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import org.json.JSONObject;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -34,7 +39,6 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
 
         profilePic = (ImageView) findViewById(R.id.profile_image);
         id = (TextView) findViewById(R.id.id);
@@ -64,37 +68,29 @@ public class AccountActivity extends AppCompatActivity {
             }
         }
         else {
-            // Otherwise, get Account Kit login information
-            AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
-                @Override
-                public void onSuccess(final Account account) {
-                    // get Account Kit ID
-                    String accountKitId = account.getId();
-                    id.setText(accountKitId);
-
-                    PhoneNumber phoneNumber = account.getPhoneNumber();
-                    if (account.getPhoneNumber() != null) {
-                        // if the phone number is available, display it
-                        String formattedPhoneNumber = formatPhoneNumber(phoneNumber.toString());
-                        info.setText(formattedPhoneNumber);
-                        infoLabel.setText(R.string.phone_label);
-                    }
-                    else {
-                        // if the email address is available, display it
-                        String emailString = account.getEmail();
-                        info.setText(emailString);
-                        infoLabel.setText(R.string.email_label);
-                    }
-
-                }
-
-                @Override
-                public void onError(final AccountKitError error) {
-                    String toastMessage = error.getErrorType().getMessage();
-                    Toast.makeText(AccountActivity.this, toastMessage, Toast.LENGTH_LONG).show();
-                }
-            });
+            Toast.makeText(this, "In else satement", Toast.LENGTH_LONG).show();
         }
+
+        if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos"))
+        {
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me/albums",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+            /* handle the result */
+                            JSONObject object = response.getJSONObject();
+
+
+                        }
+                    }
+            ).executeAsync();
+
+        }
+
+
     }
 
     @Override
@@ -106,8 +102,6 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     public void onLogout(View view) {
-        // logout of Account Kit
-        AccountKit.logOut();
         // logout of Login Button
         LoginManager.getInstance().logOut();
 
@@ -130,7 +124,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void launchLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -159,5 +153,6 @@ public class AccountActivity extends AppCompatActivity {
                 .transform(transformation)
                 .into(profilePic);
     }
+
 
 }

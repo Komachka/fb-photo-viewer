@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/accountBackground"
-    tools:context="com.example.udacity.surfconnect.AccountActivity">
+    tools:context="com.example.katerynastorozh.fbphotoviewer.AccountActivity">
 
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="48dp"
-        app:srcCompat="@drawable/icon_profile_empty"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
