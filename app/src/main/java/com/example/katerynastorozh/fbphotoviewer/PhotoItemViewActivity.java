@@ -38,7 +38,7 @@ public class PhotoItemViewActivity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.view_page);
         adapter = new ScreenSlidePagerAdapter(getIntent(). getStringArrayListExtra("data"), getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(getIntent().getIntExtra("name", 0));
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
     }
 
     @Override

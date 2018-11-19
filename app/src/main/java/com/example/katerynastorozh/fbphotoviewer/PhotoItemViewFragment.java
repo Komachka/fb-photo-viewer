@@ -8,9 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -19,16 +18,18 @@ import com.squareup.picasso.Transformation;
 public class PhotoItemViewFragment extends Fragment {
 
     ImageView imageView;
-    Button button;
+    TextView closeTV;
     String URl;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         URl = getArguments().getString("url", "url");
+
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.full_screen_image, container, false);
         imageView = rootView.findViewById(R.id.photo);
-        button = rootView.findViewById(R.id.close);
+        closeTV = rootView.findViewById(R.id.close);
         Transformation transformation = new RoundedTransformationBuilder()
                 .cornerRadiusDp(5)
                 .borderColor(ContextCompat.getColor(imageView.getContext(), R.color.destBackground))
@@ -36,7 +37,7 @@ public class PhotoItemViewFragment extends Fragment {
                 .oval(false)
                 .build();
         Picasso.with(imageView.getContext()).load(URl).transform(transformation).into(imageView);
-        button.setOnClickListener(new View.OnClickListener() {
+        closeTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().finish();

@@ -43,6 +43,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         PhotoItemViewFragment fragment = new PhotoItemViewFragment();
         Bundle args = new Bundle();
         args.putString("url", _imagePaths.get(i));
+
         fragment.setArguments(args);
         return fragment;
     }

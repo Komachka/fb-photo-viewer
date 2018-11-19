@@ -68,15 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     private void lanchAlbonActivity()
     {
-
-        //TODO remuve lanch
-        Intent intent1 = new Intent(this, AlbomsActivity.class);
-        startActivity(intent1);
-        finish();
 
 
         if (AccessToken.getCurrentAccessToken() != null)
@@ -97,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.to_alboms)
         {
+
             lanchAlbonActivity();
         }
     }

@@ -73,8 +73,6 @@ public class PictersAdaptter extends BaseAdapter {
                 Intent intent = new Intent(view.getContext(), PhotoItemViewActivity.class);
                 intent.putStringArrayListExtra("data", (ArrayList<String>) pictures);
                 intent.putExtra("position", position);
-
-                Toast.makeText(gridView.getContext(), "You Clicked "+pictures.get(position), Toast.LENGTH_SHORT).show();
                 view.getContext().startActivity(intent);
 
             }

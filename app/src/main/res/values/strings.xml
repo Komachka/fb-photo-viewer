@@ -2,8 +2,8 @@
     <string name="app_name">FbPhotoViewer</string>
     <string name="wellcome">Wellcome to Facebook Photo Viwer</string>
 
-    <string name="facebook_app_id">530261550773596</string>
-    <string name="fb_login_protocol_scheme">fb530261550773596</string>
+    <string name="facebook_app_id">2035762299799984</string>
+    <string name="fb_login_protocol_scheme">fb2035762299799984</string>
 
     <string name="description">This app helps you to watch all your favorite photos in your facebook albums. Enjoy</string>
 

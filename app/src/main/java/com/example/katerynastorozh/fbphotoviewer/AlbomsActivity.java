@@ -9,9 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+import android.widget.PopupMenu;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -19,6 +23,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -34,18 +39,20 @@ import java.util.List;
  * Created by kateryna on 18.11.18.
  */
 
-public class AlbomsActivity extends AppCompatActivity {
+public class AlbomsActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
     ProfileTracker profileTracker;
     RecyclerView recyclerView;
 
-
+    //TODO fix images radius in photos icons
     final String LOG_TAG = AlbomsActivity.class.getSimpleName();
     ImageView accountButton;
+    ImageView homeButton;
 
     List<AlbomAdapter.AlbomItem> albomItems = new ArrayList<>();
     RecyclerView.Adapter adapter;
 
 
+    //TODO add empty views
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +62,6 @@ public class AlbomsActivity extends AppCompatActivity {
         adapter = new AlbomAdapter(albomItems, new AlbomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AlbomAdapter.AlbomItem item) {
-                Toast.makeText(AlbomsActivity.this, "Item Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(AlbomsActivity.this, PhotosActivity.class);
                 intent.putExtra("ALBOM_ID", item.id);
                 startActivity(intent);
@@ -63,6 +69,7 @@ public class AlbomsActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
         accountButton = (ImageView) findViewById(R.id.account_button);
+        homeButton = (ImageView) findViewById(R.id.home_button);
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged (Profile oldProfile, Profile currentProfile) {
@@ -81,7 +88,16 @@ public class AlbomsActivity extends AppCompatActivity {
 
         if (AccessToken.getCurrentAccessToken() != null)
             createRequest();
-       }
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(myToolbar);
+       /* getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        */
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        accountButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+    }
 
     private void createRequest() {
         if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos")) {
@@ -110,7 +126,6 @@ public class AlbomsActivity extends AppCompatActivity {
 
                             } catch (JSONException ex) {
                                 Log.d(LOG_TAG, ex.getMessage());
-                                Toast.makeText(AlbomsActivity.this, ex.getMessage().toString(), Toast.LENGTH_LONG).show();
                             }
                             adapter.notifyDataSetChanged();
 
@@ -134,11 +149,41 @@ public class AlbomsActivity extends AppCompatActivity {
                 .load(uri)
                 .placeholder(R.drawable.progress_animation)
                 .transform(transformation)
+                .centerCrop()
+                .fit()
                 .into(accountButton);
     }
 
 
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.home_button)
+        {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        if (view.getId() == R.id.account_button)
+        {
+            PopupMenu popup = new PopupMenu(this,view);
+            popup.setOnMenuItemClickListener(this);// to implement on click event on items of menu
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.account_menu, popup.getMenu());
+            popup.show();
+        }
+    }
 
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.log_out)
+        {
+            LoginManager.getInstance().logOut();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return true;
+        }
+        return true;
+    }
 
 }

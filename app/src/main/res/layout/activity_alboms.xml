@@ -13,15 +13,37 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
-        android:layout_height="40dp"
-        android:layout_width="match_parent"
-        android:minHeight="29dp"
-        android:background="?attr/colorPrimary">
-    <ImageView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/account_button"/>
-        />
+        android:layout_width="match_parent"
+        android:minHeight="20dp"
+        android:background="@color/colorPrimary">
+
+
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:id="@+id/home_button"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="start"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_navigate_before_black_24dp"
+
+            />
+
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:id="@+id/account_button"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+
+         />
     </android.support.v7.widget.Toolbar>
 
 
