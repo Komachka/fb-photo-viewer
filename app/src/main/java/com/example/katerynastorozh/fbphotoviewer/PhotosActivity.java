@@ -95,10 +95,11 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
                             /* handle the result */
-                            JSONObject jsonResponce = response.getJSONObject();
-                            Log.d(LOG_TAG, jsonResponce.toString());
+
 
                             try {
+                                JSONObject jsonResponce = response.getJSONObject();
+                                Log.d(LOG_TAG, jsonResponce.toString());
                                 JSONArray jsonData = jsonResponce.getJSONArray("data");
                                 for (int i = 0; i < jsonData.length(); i++) {
                                     JSONObject image = jsonData.getJSONObject(i);
@@ -107,6 +108,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                     photos.add(url);
                                 }
                             } catch (JSONException ex) {
+                                Log.d(LOG_TAG, ex.getMessage());
+                            }
+                            catch (NullPointerException ex)
+                            {
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             picturesAdapter.notifyDataSetChanged();

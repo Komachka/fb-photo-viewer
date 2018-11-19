@@ -108,10 +108,11 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
-                            JSONObject jsonResponce = response.getJSONObject();
-                            Log.d(LOG_TAG, jsonResponce.toString());
 
                             try {
+                                JSONObject jsonResponce = response.getJSONObject();
+                                Log.d(LOG_TAG, jsonResponce.toString());
+
                                 JSONArray jsonData = jsonResponce.getJSONArray("data");
 
                                 for (int i = 0; i < jsonData.length(); i++) {
@@ -125,6 +126,10 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
                                 }
 
                             } catch (JSONException ex) {
+                                Log.d(LOG_TAG, ex.getMessage());
+                            }
+                            catch (NullPointerException ex)
+                            {
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             adapter.notifyDataSetChanged();
