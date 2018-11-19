@@ -8,6 +8,8 @@
         android:id="@+id/grid_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher_round"
+        android:scaleType="centerCrop"
+        />
 </FrameLayout>
