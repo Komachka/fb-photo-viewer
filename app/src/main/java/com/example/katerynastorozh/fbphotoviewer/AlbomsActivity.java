@@ -50,11 +50,8 @@ public class AlbomsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alboms);
-
         recyclerView = (RecyclerView) findViewById(R.id.destination_list);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         adapter = new AlbomAdapter(albomItems, new AlbomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AlbomAdapter.AlbomItem item) {
@@ -65,9 +62,7 @@ public class AlbomsActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-
         accountButton = (ImageView) findViewById(R.id.account_button);
-
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged (Profile oldProfile, Profile currentProfile) {
@@ -76,22 +71,20 @@ public class AlbomsActivity extends AppCompatActivity {
                 }
             }
         };
-
         Profile currentProfile = Profile.getCurrentProfile();
         if (currentProfile != null) {
             displayProfilePic(currentProfile);
         }
         else {
-            // Fetch the profile, which will trigger the onCurrentProfileChanged receiver
             Profile.fetchProfileForCurrentAccessToken();
         }
 
+        if (AccessToken.getCurrentAccessToken() != null)
+            createRequest();
+       }
 
-
-
-
-        if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos"))
-        {
+    private void createRequest() {
+        if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos")) {
             GraphRequest request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/me/albums",
@@ -99,29 +92,25 @@ public class AlbomsActivity extends AppCompatActivity {
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
-            /* handle the result */
                             JSONObject jsonResponce = response.getJSONObject();
-                            Log.d(LOG_TAG,jsonResponce.toString());
-                            //Toast.makeText(AlbomsActivity.this,jsonResponce.toString(), Toast.LENGTH_LONG).show();
+                            Log.d(LOG_TAG, jsonResponce.toString());
 
                             try {
-                                JSONArray jsonData= jsonResponce.getJSONArray("data");
+                                JSONArray jsonData = jsonResponce.getJSONArray("data");
 
-                                for (int i = 0; i <jsonData.length() ; i++) {
+                                for (int i = 0; i < jsonData.length(); i++) {
                                     JSONObject albomItemJSON = jsonData.getJSONObject(i);
                                     String name = albomItemJSON.getString("name");
                                     String id = albomItemJSON.getString("id");
 
-                                        String coverPhoto = albomItemJSON.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    String coverPhoto = albomItemJSON.getJSONObject("picture").getJSONObject("data").getString("url");
                                     Log.d(LOG_TAG, "albom name " + name + " url " + coverPhoto);
-                                    albomItems.add(new AlbomAdapter.AlbomItem(id,name,coverPhoto));
+                                    albomItems.add(new AlbomAdapter.AlbomItem(id, name, coverPhoto));
                                 }
 
-                            }
-                            catch (JSONException ex)
-                            {
+                            } catch (JSONException ex) {
                                 Log.d(LOG_TAG, ex.getMessage());
-                                Toast.makeText(AlbomsActivity.this,ex.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(AlbomsActivity.this, ex.getMessage().toString(), Toast.LENGTH_LONG).show();
                             }
                             adapter.notifyDataSetChanged();
 
@@ -130,21 +119,12 @@ public class AlbomsActivity extends AppCompatActivity {
             );
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id,name,picture.type(album)");
-
             request.setParameters(parameters);
             request.executeAsync();
-
-
-
-
+            }
         }
 
-
-    }
-
-
     private void displayProfilePic(Profile profile) {
-        // helper method to load the profile pic in a circular imageview
         Uri uri = profile.getProfilePictureUri(28, 28);
         Transformation transformation = new RoundedTransformationBuilder()
                 .cornerRadiusDp(30)

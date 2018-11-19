@@ -31,16 +31,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
-
         callbackManager = CallbackManager.Factory.create();
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
         loginButton.setReadPermissions(Arrays.asList("user_photos"));
-
-
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -51,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onCancel() {
-                        // App code
+                        Toast.makeText(MainActivity.this, "Can not login", Toast.LENGTH_LONG).show();
+
                     }
 
                     @Override
@@ -76,6 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void lanchAlbonActivity()
     {
+
+        //TODO remuve lanch
+        Intent intent1 = new Intent(this, AlbomsActivity.class);
+        startActivity(intent1);
+        finish();
+
+
         if (AccessToken.getCurrentAccessToken() != null)
         {
             Intent intent = new Intent(this, AlbomsActivity.class);
