@@ -2,32 +2,10 @@
     <string name="app_name">FbPhotoViewer</string>
     <string name="wellcome">Wellcome to Facebook Photo Viwer</string>
 
-    <string name="facebook_app_id">2035762299799984</string>
-    <string name="fb_login_protocol_scheme">fb2035762299799984</string>
+    <string name="facebook_app_id">302390440377310</string>
+    <string name="fb_login_protocol_scheme">fb302390440377310</string>
 
-
-    <string name="login_email_label">Login with Email</string>
-    <string name="login_phone_label">Login with Phone Number</string>
-    <string name="account">Account</string>
-    <string name="id_label">Account ID</string>
-    <string name="phone_label">Phone Number</string>
-    <string name="email_label">Email</string>
-    <string name="name_label">Name</string>
-    <string name="logout_label">Log Out</string>
-
-
-    <string name="ak_login_protocol_scheme">ak406361306396238</string>
-    <string name="login_label">Email or Phone Number</string>
-    <string name="accountkit_button_label">Continue</string>
-
-    <string name="search_label">Where are you headed?</string>
-    <string name="visited_today">visited today</string>
-    <string name="friends">Find Friends</string>
-    <string name="follow">Follow</string>
-    <string name="unfollow">Unfollow</string>
-    <string name="no_friends">No friends found</string>
-    <string name="location_permission_message">Surf Connect would like acces to your user location.</string>
-    <string name="permission_message">Surf Connect requires permission to access your Facebook friend list to use Find Friends</string>
+    <string name="description">This app helps you to watch all your favorite photos in your facebook albums. Enjoy</string>
 
 
 </resources>

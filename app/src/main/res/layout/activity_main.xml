@@ -7,54 +7,49 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       android:padding="35dp"
-       android:background="@color/colorPrimaryDark">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:padding="35dp">
 
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="42sp"
-           android:textColor="#fff"
-           android:text="@string/wellcome"/>
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textColor="#fff"
-           android:text="@string/wellcome"
-           android:textSize="16sp"
-           android:layout_marginTop="25dp"/>
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:gravity="center"
-           android:layout_marginTop="50dp">
-           <Button
-               android:drawableStart="@drawable/ic_person_outline_black_24dp"
-               android:layout_margin="10dp"
-               android:textColor="#fff"
-               android:background="@drawable/buttonstylepink"
-               android:layout_width="0dp"
-               android:layout_weight="0.55"
-               android:layout_height="wrap_content"
-               android:text="Go to alboms"
-               android:id="@+id/to_alboms"
-               />
-           <Button
-               android:drawableStart="@drawable/ic_message_black_24dp"
-               android:layout_margin="10dp"
-               android:background="@drawable/buttonstyle2"
-               android:textColor="#fff"
-               android:layout_width="0dp"
-               android:layout_weight="0.55"
-               android:layout_height="wrap_content"
-               android:text="Login with sms"/>
-       </LinearLayout>
-   </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wellcome"
+            android:textColor="#fff"
+            android:textSize="42sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:drawablePadding="@dimen/cardview_default_elevation"
+            android:text="@string/description"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/to_alboms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:background="@drawable/buttonstyle2"
+                android:drawableStart="@drawable/ic_photo_library_black_24dp"
+                android:text="Go to alboms"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,15 +58,22 @@
         android:gravity="center">
 
 
-
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            style="@style/FacebookLoginButton"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/buttonstylepink"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="14dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="14dp"
+            android:textAllCaps="true"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

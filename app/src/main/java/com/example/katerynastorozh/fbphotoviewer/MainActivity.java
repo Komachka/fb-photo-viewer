@@ -72,11 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void launchAccountActivity() {
-        Intent intent = new Intent(this, AccountActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
 
     private void lanchAlbonActivity()

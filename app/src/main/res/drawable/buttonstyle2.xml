@@ -3,4 +3,5 @@
 <stroke android:color="#fff" android:width="2dp"/>
     <corners android:radius="25dp"/>
     <padding android:right="15dp" android:left="15dp" android:bottom="15dp" android:top="15dp"/>
+    <stroke android:dashGap="@dimen/cardview_compat_inset_shadow" android:dashWidth="@dimen/cardview_default_elevation" android:color="#fff"/>
  </shape>

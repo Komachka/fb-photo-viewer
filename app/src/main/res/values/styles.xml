@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/buttonstylepink</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+
+
+    </style>
+
 </resources>
