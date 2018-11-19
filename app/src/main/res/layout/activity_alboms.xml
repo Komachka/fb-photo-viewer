@@ -11,10 +11,19 @@
     tools:context="com.example.katerynastorozh.fbphotoviewer.AlbomsActivity" >
 
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:minHeight="20dp"
+        android:background="?attr/colorPrimary">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/account_button"/>
+        />
+    </android.support.v7.widget.Toolbar>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/destination_list"
