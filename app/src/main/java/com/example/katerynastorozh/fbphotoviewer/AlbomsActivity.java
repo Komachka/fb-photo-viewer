@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -47,6 +48,7 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
     final String LOG_TAG = AlbomsActivity.class.getSimpleName();
     ImageView accountButton;
     ImageView homeButton;
+    View emptyView;
 
     List<AlbomAdapter.AlbomItem> albomItems = new ArrayList<>();
     RecyclerView.Adapter adapter;
@@ -59,6 +61,8 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_alboms);
         recyclerView = (RecyclerView) findViewById(R.id.destination_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        emptyView = findViewById(R.id.empty_view);
         adapter = new AlbomAdapter(albomItems, new AlbomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(AlbomAdapter.AlbomItem item) {
@@ -68,6 +72,7 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         recyclerView.setAdapter(adapter);
+        setEmptyView();
         accountButton = (ImageView) findViewById(R.id.account_button);
         homeButton = (ImageView) findViewById(R.id.home_button);
         profileTracker = new ProfileTracker() {
@@ -99,6 +104,17 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
         homeButton.setOnClickListener(this);
     }
 
+    private void setEmptyView() {
+        if (albomItems.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
     private void createRequest() {
         if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos")) {
             GraphRequest request = new GraphRequest(
@@ -126,13 +142,16 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
                                 }
 
                             } catch (JSONException ex) {
+                                Toast.makeText(AlbomsActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             catch (NullPointerException ex)
                             {
+                                Toast.makeText(AlbomsActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             adapter.notifyDataSetChanged();
+                            setEmptyView();
 
                         }
                     }

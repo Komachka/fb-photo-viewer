@@ -6,6 +6,8 @@
     <string name="fb_login_protocol_scheme">fb2035762299799984</string>
 
     <string name="description">This app helps you to watch all your favorite photos in your facebook albums. Enjoy</string>
+    <string name="no_albums_to_show">No albums to show</string>
+    <string name="no_photos_to_show">No photos to show</string>
 
 
 </resources>

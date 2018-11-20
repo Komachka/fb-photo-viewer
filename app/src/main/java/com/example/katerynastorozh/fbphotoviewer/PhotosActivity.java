@@ -58,8 +58,10 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         homeButton.setOnClickListener(this);
 
         gridView = (GridView) findViewById(R.id.grid_adapter);
-
+        View emptyView = findViewById(R.id.empty_view);
+        gridView.setEmptyView(emptyView);
         picturesAdapter = new PictersAdaptter(photos);
+
         gridView.setAdapter(picturesAdapter);
 
 
@@ -109,10 +111,13 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                 }
                             } catch (JSONException ex) {
                                 Log.d(LOG_TAG, ex.getMessage());
+                                Toast.makeText(PhotosActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
+
                             }
                             catch (NullPointerException ex)
                             {
                                 Log.d(LOG_TAG, ex.getMessage());
+                                Toast.makeText(PhotosActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
                             }
                             picturesAdapter.notifyDataSetChanged();
                         }
