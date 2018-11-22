@@ -1,9 +1,8 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.alboms;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +11,14 @@ import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.katerynastorozh.fbphotoviewer.photosgreed.PhotosActivity;
+import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.login.LoginActivity;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -40,21 +41,19 @@ import java.util.List;
  * Created by kateryna on 18.11.18.
  */
 
-public class AlbomsActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+public class AlbumActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+
+    final String LOG_TAG = AlbumActivity.class.getSimpleName();
+
     ProfileTracker profileTracker;
     RecyclerView recyclerView;
-
-    //TODO fix images radius in photos icons
-    final String LOG_TAG = AlbomsActivity.class.getSimpleName();
     ImageView accountButton;
     ImageView homeButton;
     View emptyView;
 
-    List<AlbomAdapter.AlbomItem> albomItems = new ArrayList<>();
+    List<AlbumAdapter.AlbomItem> albumItems = new ArrayList<>();
     RecyclerView.Adapter adapter;
 
-
-    //TODO add empty views
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +62,11 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         emptyView = findViewById(R.id.empty_view);
-        adapter = new AlbomAdapter(albomItems, new AlbomAdapter.OnItemClickListener() {
+        adapter = new AlbumAdapter(albumItems, new AlbumAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AlbomAdapter.AlbomItem item) {
-                Intent intent = new Intent(AlbomsActivity.this, PhotosActivity.class);
-                intent.putExtra("ALBOM_ID", item.id);
+            public void onItemClick(AlbumAdapter.AlbomItem item) {
+                Intent intent = new Intent(AlbumActivity.this, PhotosActivity.class);
+                intent.putExtra(getResources().getString(R.string.ALBUM_ID), item.id);
                 startActivity(intent);
             }
         });
@@ -96,16 +95,13 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(myToolbar);
-       /* getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        */
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         accountButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
     }
 
     private void setEmptyView() {
-        if (albomItems.isEmpty()) {
+        if (albumItems.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         }
@@ -116,10 +112,10 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void createRequest() {
-        if(AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos")) {
+        if(AccessToken.getCurrentAccessToken().getPermissions().contains(getResources().getString(R.string.USER_PHOTOS_PERMISSION))) {
             GraphRequest request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
-                    "/me/albums",
+                    getResources().getString(R.string.FB_ALBUMS_REQUEST),
                     null,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
@@ -132,22 +128,22 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
                                 JSONArray jsonData = jsonResponce.getJSONArray("data");
 
                                 for (int i = 0; i < jsonData.length(); i++) {
-                                    JSONObject albomItemJSON = jsonData.getJSONObject(i);
-                                    String name = albomItemJSON.getString("name");
-                                    String id = albomItemJSON.getString("id");
+                                    JSONObject albumItemJSON = jsonData.getJSONObject(i);
+                                    String name = albumItemJSON.getString("name");
+                                    String id = albumItemJSON.getString("id");
 
-                                    String coverPhoto = albomItemJSON.getJSONObject("picture").getJSONObject("data").getString("url");
-                                    Log.d(LOG_TAG, "albom name " + name + " url " + coverPhoto);
-                                    albomItems.add(new AlbomAdapter.AlbomItem(id, name, coverPhoto));
+                                    String coverPhoto = albumItemJSON.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    Log.d(LOG_TAG, "Album name " + name + " url " + coverPhoto);
+                                    albumItems.add(new AlbumAdapter.AlbomItem(id, name, coverPhoto));
                                 }
 
                             } catch (JSONException ex) {
-                                Toast.makeText(AlbomsActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AlbumActivity.this, R.string.albums_can_not_be_loaded, Toast.LENGTH_LONG).show();
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             catch (NullPointerException ex)
                             {
-                                Toast.makeText(AlbomsActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AlbumActivity.this, R.string.albums_can_not_be_loaded, Toast.LENGTH_LONG).show();
                                 Log.d(LOG_TAG, ex.getMessage());
                             }
                             adapter.notifyDataSetChanged();
@@ -184,7 +180,7 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         if (view.getId() == R.id.home_button)
         {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
         if (view.getId() == R.id.account_button)
@@ -203,7 +199,7 @@ public class AlbomsActivity extends AppCompatActivity implements View.OnClickLis
         if (menuItem.getItemId() == R.id.log_out)
         {
             LoginManager.getInstance().logOut();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
         }

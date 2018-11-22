@@ -1,29 +1,27 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.katerynastorozh.fbphotoviewer.alboms.AlbumActivity;
+import com.example.katerynastorozh.fbphotoviewer.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public CallbackManager callbackManager;
-    private static final String EMAIL = "email";
     LoginButton loginButton;
 
     @Override
@@ -34,26 +32,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         callbackManager = CallbackManager.Factory.create();
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList(EMAIL));
-        loginButton.setReadPermissions(Arrays.asList("user_photos"));
+        loginButton.setReadPermissions(Arrays.asList(getResources().getString(R.string.EMAIL_PERMISSION)));
+        loginButton.setReadPermissions(Arrays.asList(getResources().getString(R.string.USER_PHOTOS_PERMISSION)));
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        lanchAlbonActivity();
+                        launchAlbumActivity();
                     }
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(MainActivity.this, "Can not login", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.can_not_login, Toast.LENGTH_LONG).show();
 
                     }
-
                     @Override
                     public void onError(FacebookException exception) {
-                        Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-                        // App code
+                        Toast.makeText(LoginActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -68,19 +64,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void lanchAlbonActivity()
+    private void launchAlbumActivity()
     {
 
 
         if (AccessToken.getCurrentAccessToken() != null)
         {
-            Intent intent = new Intent(this, AlbomsActivity.class);
+            Intent intent = new Intent(this, AlbumActivity.class);
             startActivity(intent);
             finish();
         }
         else
         {
-            Toast.makeText(this, "Login to facebook first", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.login_first, Toast.LENGTH_LONG).show();
         }
 
 
@@ -91,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.to_alboms)
         {
 
-            lanchAlbonActivity();
+            launchAlbumActivity();
         }
     }
 }

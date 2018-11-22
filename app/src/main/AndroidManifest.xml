@@ -31,16 +31,16 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlbomsActivity" />
-        <activity android:name=".PhotosActivity" />
-        <activity android:name=".PhotoItemViewActivity"/>
+        <activity android:name=".alboms.AlbumActivity" />
+        <activity android:name=".photosgreed.PhotosActivity" />
+        <activity android:name=".photoitem.PhotoItemViewActivity"/>
     </application>
 
 </manifest>

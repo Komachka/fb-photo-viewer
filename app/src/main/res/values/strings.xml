@@ -8,6 +8,25 @@
     <string name="description">This app helps you to watch all your favorite photos in your facebook albums. Enjoy</string>
     <string name="no_albums_to_show">No albums to show</string>
     <string name="no_photos_to_show">No photos to show</string>
+    <string name="can_not_login">Can not login</string>
+    <string name="login_first">Login to facebook first</string>
+    <string name="albums_can_not_be_loaded">Albums can not be loaded</string>
+
+
+
+
+    <!--Facebook request constants -->
+    <string name="USER_PHOTOS_PERMISSION">user_photos</string>
+    <string name="EMAIL_PERMISSION">email</string>
+    <string name="FB_ALBUMS_REQUEST">/me/albums</string>
+
+
+    <!--> Bundle constants<-->
+    <string name="ALBUM_ID">ALBUM_ID</string>
+    <string name="PHOTOS_DATA">data</string>
+    <string name="SLIDER_POSITION">position</string>
+    <string name="PHOTO_URL">url</string>
+
 
 
 </resources>

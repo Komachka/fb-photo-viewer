@@ -1,4 +1,4 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.photoitem;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.katerynastorozh.fbphotoviewer.R;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -25,7 +26,8 @@ public class PhotoItemViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        URl = getArguments().getString("url", "url");
+        //TODO change default value
+        URl = getArguments().getString(getResources().getString(R.string.PHOTO_URL), "url");
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.full_screen_image, container, false);
         imageView = rootView.findViewById(R.id.photo);

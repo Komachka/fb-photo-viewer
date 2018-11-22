@@ -1,4 +1,4 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.photosgreed;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,12 +9,13 @@ import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.login.LoginActivity;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -37,7 +38,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
     final String LOG_TAG = PhotosActivity.class.getSimpleName();
     List<String> photos = new ArrayList<>();
-    PictersAdaptter picturesAdapter;
+    PhotosAdapter picturesAdapter;
     GridView gridView;
     ImageView accountButton;
     ImageView homeButton;
@@ -47,7 +48,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
-        String albomID = getIntent().getStringExtra("ALBOM_ID");
+        String albumID = getIntent().getStringExtra(getResources().getString(R.string.ALBUM_ID));
 
         accountButton = (ImageView) findViewById(R.id.account_button);
         homeButton = (ImageView) findViewById(R.id.home_button);
@@ -60,7 +61,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         gridView = (GridView) findViewById(R.id.grid_adapter);
         View emptyView = findViewById(R.id.empty_view);
         gridView.setEmptyView(emptyView);
-        picturesAdapter = new PictersAdaptter(photos);
+        picturesAdapter = new PhotosAdapter(photos);
 
         gridView.setAdapter(picturesAdapter);
 
@@ -83,12 +84,12 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
 
 
         if (AccessToken.getCurrentAccessToken() != null) {
-            createRequest(albomID);
+            createRequest(albumID);
         }
     }
 
     private void createRequest(String albomID) {
-        if (AccessToken.getCurrentAccessToken().getPermissions().contains("user_photos")) {
+        if (AccessToken.getCurrentAccessToken().getPermissions().contains(getResources().getString(R.string.USER_PHOTOS_PERMISSION))) {
             GraphRequest request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/" + albomID + "/photos",
@@ -111,13 +112,13 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                                 }
                             } catch (JSONException ex) {
                                 Log.d(LOG_TAG, ex.getMessage());
-                                Toast.makeText(PhotosActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PhotosActivity.this, getResources().getString(R.string.albums_can_not_be_loaded), Toast.LENGTH_LONG).show();
 
                             }
                             catch (NullPointerException ex)
                             {
                                 Log.d(LOG_TAG, ex.getMessage());
-                                Toast.makeText(PhotosActivity.this, "Alboms can not be loaded", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PhotosActivity.this, getResources().getString(R.string.albums_can_not_be_loaded), Toast.LENGTH_LONG).show();
                             }
                             picturesAdapter.notifyDataSetChanged();
                         }
@@ -171,7 +172,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         if (menuItem.getItemId() == R.id.log_out)
         {
             LoginManager.getInstance().logOut();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
         }

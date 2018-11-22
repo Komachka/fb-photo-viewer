@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true"
-    tools:context="com.example.katerynastorozh.fbphotoviewer.AlbomsActivity" >
+    tools:context="com.example.katerynastorozh.fbphotoviewer.alboms.AlbumActivity" >
 
 
     <android.support.v7.widget.Toolbar

@@ -1,43 +1,25 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.alboms;
 
 /**
  * Created by kateryna on 18.11.18.
  */
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.zxing.oned.ITFReader;
+import com.example.katerynastorozh.fbphotoviewer.R;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
 import java.util.List;
 
-public class AlbomAdapter extends RecyclerView.Adapter<AlbomAdapter.ViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
 
     public interface OnItemClickListener {
@@ -49,7 +31,7 @@ public class AlbomAdapter extends RecyclerView.Adapter<AlbomAdapter.ViewHolder> 
 
 
 
-    public AlbomAdapter(List<AlbomItem> alboms, OnItemClickListener listener) {
+    public AlbumAdapter(List<AlbomItem> alboms, OnItemClickListener listener) {
         this.alboms = alboms;
         this.listener = listener;
     }

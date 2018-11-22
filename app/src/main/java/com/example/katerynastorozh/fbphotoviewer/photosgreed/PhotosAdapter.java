@@ -1,18 +1,15 @@
-package com.example.katerynastorozh.fbphotoviewer;
+package com.example.katerynastorozh.fbphotoviewer.photosgreed;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.photoitem.PhotoItemViewActivity;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -24,12 +21,12 @@ import java.util.List;
  * Created by kateryna on 18.11.18.
  */
 
-public class PictersAdaptter extends BaseAdapter {
+public class PhotosAdapter extends BaseAdapter {
 
-    List<String> pictures;
+    private List<String> pictures;
 
 
-    public PictersAdaptter(List<String> pictures) {
+    PhotosAdapter(List<String> pictures) {
         this.pictures = pictures;
     }
 
@@ -71,8 +68,8 @@ public class PictersAdaptter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PhotoItemViewActivity.class);
-                intent.putStringArrayListExtra("data", (ArrayList<String>) pictures);
-                intent.putExtra("position", position);
+                intent.putStringArrayListExtra(view.getContext().getResources().getString(R.string.PHOTOS_DATA), (ArrayList<String>) pictures);
+                intent.putExtra(view.getContext().getResources().getString(R.string.SLIDER_POSITION), position);
                 view.getContext().startActivity(intent);
 
             }
