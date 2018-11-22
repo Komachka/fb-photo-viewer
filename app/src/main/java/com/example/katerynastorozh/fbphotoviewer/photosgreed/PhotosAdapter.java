@@ -48,15 +48,16 @@ public class PhotosAdapter extends BaseAdapter {
         return i;
     }
 
-    public class Holder {
-        ImageView imageView;
+    public class ViewHolder{
+        private ImageView imageView;
     }
+
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-        Holder holder = new Holder();
-        final View gridView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.grid_item, viewGroup, false);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        ViewHolder holder = new ViewHolder();
+        final View gridView = layoutInflater.inflate(R.layout.grid_item, viewGroup, false);
         holder.imageView = (ImageView) gridView.findViewById(R.id.grid_item);
         Transformation transformation = new RoundedTransformationBuilder()
                 .cornerRadiusDp(5)

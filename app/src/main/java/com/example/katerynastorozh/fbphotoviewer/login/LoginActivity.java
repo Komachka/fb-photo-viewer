@@ -25,7 +25,7 @@ import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.USER_PHO
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public CallbackManager callbackManager;
-    LoginButton loginButton;
+    private LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -41,13 +41,13 @@ import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.USER_PHO
 public class PhotosActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     final String LOG_TAG = PhotosActivity.class.getSimpleName();
-    List<String> photos = new ArrayList<>();
-    PhotosAdapter picturesAdapter;
-    GridView gridView;
-    ImageView accountButton;
-    ImageView homeButton;
-    ProfileTracker profileTracker;
-    ImageHelper imageHelper;
+    private List<String> photos = new ArrayList<>();
+    private PhotosAdapter picturesAdapter;
+    private GridView gridView;
+    private ImageView accountButton;
+    private ImageView homeButton;
+    private ProfileTracker profileTracker;
+    private ImageHelper imageHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_photos);
         imageHelper = new ImageHelper(this);
         String albumID = getIntent().getStringExtra(ALBUM_ID);
-
         accountButton = (ImageView) findViewById(R.id.account_button);
         homeButton = (ImageView) findViewById(R.id.home_button);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
@@ -68,7 +67,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
         View emptyView = findViewById(R.id.empty_view);
         gridView.setEmptyView(emptyView);
         picturesAdapter = new PhotosAdapter(photos);
-
         gridView.setAdapter(picturesAdapter);
 
 

@@ -21,10 +21,10 @@ import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.PHOTO_UR
 
 public class PhotoItemViewFragment extends Fragment {
 
-    ImageView imageView;
-    TextView closeTV;
-    String URl;
-    ImageHelper imageHelper;
+    private ImageView imageView;
+    private TextView closeTV;
+    private String URl;
+    private ImageHelper imageHelper;
 
 
     @Nullable

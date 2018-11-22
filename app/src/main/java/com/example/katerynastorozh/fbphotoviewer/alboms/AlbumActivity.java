@@ -50,12 +50,12 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
 
     final String LOG_TAG = AlbumActivity.class.getSimpleName();
 
-    ProfileTracker profileTracker;
-    RecyclerView recyclerView;
-    ImageView accountButton;
-    ImageView homeButton;
-    View emptyView;
-    ImageHelper imageHelper;
+    private ProfileTracker profileTracker;
+    private RecyclerView recyclerView;
+    private ImageView accountButton;
+    private ImageView homeButton;
+    private View emptyView;
+    public ImageHelper imageHelper;
 
     List<AlbumAdapter.AlbumItem> albumItems = new ArrayList<>();
     RecyclerView.Adapter adapter;
