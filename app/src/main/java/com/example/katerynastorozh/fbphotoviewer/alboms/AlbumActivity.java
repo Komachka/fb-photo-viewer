@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.katerynastorozh.fbphotoviewer.photosgreed.PhotosActivity;
 import com.example.katerynastorozh.fbphotoviewer.R;
 import com.example.katerynastorozh.fbphotoviewer.login.LoginActivity;
+import com.example.katerynastorozh.fbphotoviewer.utils.ImageHelper;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -37,6 +38,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.ALBUM_ID;
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.FB_ALBUMS_REQUEST;
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.USER_PHOTOS_PERMISSION;
+
 /**
  * Created by kateryna on 18.11.18.
  */
@@ -50,23 +55,25 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
     ImageView accountButton;
     ImageView homeButton;
     View emptyView;
+    ImageHelper imageHelper;
 
-    List<AlbumAdapter.AlbomItem> albumItems = new ArrayList<>();
+    List<AlbumAdapter.AlbumItem> albumItems = new ArrayList<>();
     RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alboms);
+        imageHelper = new ImageHelper(this);
         recyclerView = (RecyclerView) findViewById(R.id.destination_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         emptyView = findViewById(R.id.empty_view);
-        adapter = new AlbumAdapter(albumItems, new AlbumAdapter.OnItemClickListener() {
+        adapter = new AlbumAdapter(this, albumItems, new AlbumAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AlbumAdapter.AlbomItem item) {
+            public void onItemClick(AlbumAdapter.AlbumItem item) {
                 Intent intent = new Intent(AlbumActivity.this, PhotosActivity.class);
-                intent.putExtra(getResources().getString(R.string.ALBUM_ID), item.id);
+                intent.putExtra(ALBUM_ID, item.id);
                 startActivity(intent);
             }
         });
@@ -78,13 +85,13 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
             @Override
             protected void onCurrentProfileChanged (Profile oldProfile, Profile currentProfile) {
                 if (currentProfile != null) {
-                    displayProfilePic(currentProfile);
+                    imageHelper.displayProfilePic(currentProfile, accountButton);
                 }
             }
         };
         Profile currentProfile = Profile.getCurrentProfile();
         if (currentProfile != null) {
-            displayProfilePic(currentProfile);
+            imageHelper.displayProfilePic(currentProfile, accountButton);
         }
         else {
             Profile.fetchProfileForCurrentAccessToken();
@@ -112,10 +119,10 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void createRequest() {
-        if(AccessToken.getCurrentAccessToken().getPermissions().contains(getResources().getString(R.string.USER_PHOTOS_PERMISSION))) {
+        if(AccessToken.getCurrentAccessToken().getPermissions().contains(USER_PHOTOS_PERMISSION)) {
             GraphRequest request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
-                    getResources().getString(R.string.FB_ALBUMS_REQUEST),
+                    FB_ALBUMS_REQUEST,
                     null,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
@@ -134,7 +141,7 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
 
                                     String coverPhoto = albumItemJSON.getJSONObject("picture").getJSONObject("data").getString("url");
                                     Log.d(LOG_TAG, "Album name " + name + " url " + coverPhoto);
-                                    albumItems.add(new AlbumAdapter.AlbomItem(id, name, coverPhoto));
+                                    albumItems.add(new AlbumAdapter.AlbumItem(id, name, coverPhoto));
                                 }
 
                             } catch (JSONException ex) {
@@ -158,22 +165,6 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
             request.executeAsync();
             }
         }
-
-    private void displayProfilePic(Profile profile) {
-        Uri uri = profile.getProfilePictureUri(28, 28);
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(30)
-                .oval(false)
-                .build();
-        Picasso.with(this)
-                .load(uri)
-                .placeholder(R.drawable.progress_animation)
-                .transform(transformation)
-                .centerCrop()
-                .fit()
-                .into(accountButton);
-    }
-
 
 
     @Override

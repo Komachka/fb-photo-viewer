@@ -3,6 +3,7 @@ package com.example.katerynastorozh.fbphotoviewer.alboms;
 /**
  * Created by kateryna on 18.11.18.
  */
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.utils.ImageHelper;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -21,35 +23,35 @@ import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
+    private final List<AlbumItem> alboms;
+    private final OnItemClickListener listener;
+    private final AlbumActivity activity;
+
 
     public interface OnItemClickListener {
-        void onItemClick(AlbomItem item);
+        void onItemClick(AlbumItem item);
     }
 
-    private final List<AlbomItem> alboms;
-    private final OnItemClickListener listener;
 
 
-
-    public AlbumAdapter(List<AlbomItem> alboms, OnItemClickListener listener) {
-        this.alboms = alboms;
+    public AlbumAdapter(AlbumActivity activity, List<AlbumItem> albums, OnItemClickListener listener ) {
+        this.alboms = albums;
         this.listener = listener;
+        this.activity = activity;
     }
 
-    public static class AlbomItem {
+    public static class AlbumItem {
         final String id;
         final String name;
         final String imageURI;
 
 
-        public AlbomItem(String id, String name, String imageURI) {
+        public AlbumItem(String id, String name, String imageURI) {
             this.id = id;
             this.name = name;
             this.imageURI = imageURI;
         }
     }
-
-
 
 
     @NonNull
@@ -76,41 +78,30 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
-        final View mView;
-        final TextView mName;
-        final ImageView mAlbomPic;
+        //ImageHelper imageHelper;
+        final View view;
+        final TextView textName;
+        final ImageView albumPic;
 
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mView = itemView;
-            mName = itemView.findViewById(R.id.name);
-            mAlbomPic = itemView.findViewById(R.id.albompic);
-
-
+            activity.imageHelper = new ImageHelper(itemView.getContext());
+            view = itemView;
+            textName = itemView.findViewById(R.id.name);
+            albumPic = itemView.findViewById(R.id.albompic);
         }
 
 
-        public void bind(final AlbomItem item, final OnItemClickListener listener) {
-            final AlbomItem albomItem = item;
-            mName.setText(albomItem.name);
-
-            Transformation transformation = new RoundedTransformationBuilder()
-                    .cornerRadiusDp(20)
-                    .borderColor(ContextCompat.getColor(mAlbomPic.getContext(), R.color.destBackground))
-                    .borderWidthDp(1)
-                    .oval(false)
-                    .build();
-            Picasso.with(mAlbomPic.getContext()).load(albomItem.imageURI).placeholder(R.drawable.progress_animation)
-                    .transform(transformation).into(mAlbomPic);
-
-            mView.setOnClickListener(new View.OnClickListener() {
+        public void bind(final AlbumItem item, final OnItemClickListener listener) {
+            final AlbumItem albumItem = item;
+            textName.setText(albumItem.name);
+            activity.imageHelper.loadImageToView(albumItem.imageURI, albumPic);
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(albomItem);
+                    listener.onItemClick(albumItem);
                 }
             });
         }

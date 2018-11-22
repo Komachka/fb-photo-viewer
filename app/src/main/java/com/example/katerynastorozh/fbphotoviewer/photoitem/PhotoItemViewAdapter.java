@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.utils.Constants;
 
 import java.util.ArrayList;
+
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.PHOTO_URL;
 
 class PhotoItemViewAdapter extends FragmentStatePagerAdapter {
 
@@ -28,7 +31,7 @@ class PhotoItemViewAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         PhotoItemViewFragment fragment = new PhotoItemViewFragment();
         Bundle args = new Bundle();
-        args.putString(fragment.getContext().getResources().getString(R.string.PHOTO_URL), imagePaths.get(i));
+        args.putString(PHOTO_URL, imagePaths.get(i));
         fragment.setArguments(args);
         return fragment;
     }

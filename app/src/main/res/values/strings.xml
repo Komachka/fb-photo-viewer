@@ -15,18 +15,6 @@
 
 
 
-    <!--Facebook request constants -->
-    <string name="USER_PHOTOS_PERMISSION">user_photos</string>
-    <string name="EMAIL_PERMISSION">email</string>
-    <string name="FB_ALBUMS_REQUEST">/me/albums</string>
-
-
-    <!--> Bundle constants<-->
-    <string name="ALBUM_ID">ALBUM_ID</string>
-    <string name="PHOTOS_DATA">data</string>
-    <string name="SLIDER_POSITION">position</string>
-    <string name="PHOTO_URL">url</string>
-
 
 
 </resources>

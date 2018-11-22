@@ -12,33 +12,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.katerynastorozh.fbphotoviewer.R;
+import com.example.katerynastorozh.fbphotoviewer.utils.ImageHelper;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.PHOTO_URL;
 
 public class PhotoItemViewFragment extends Fragment {
 
     ImageView imageView;
     TextView closeTV;
     String URl;
+    ImageHelper imageHelper;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //TODO change default value
-        URl = getArguments().getString(getResources().getString(R.string.PHOTO_URL), "url");
+        URl = getArguments().getString(PHOTO_URL, "url");
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.full_screen_image, container, false);
         imageView = rootView.findViewById(R.id.photo);
         closeTV = rootView.findViewById(R.id.close);
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(5)
-                .borderColor(ContextCompat.getColor(imageView.getContext(), R.color.destBackground))
-                .borderWidthDp(1)
-                .oval(false)
-                .build();
-        Picasso.with(imageView.getContext()).load(URl).transform(transformation).into(imageView);
+        imageHelper = new ImageHelper(getContext());
+        imageHelper.loadImageToView(URl, imageView);
         closeTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,5 +46,11 @@ public class PhotoItemViewFragment extends Fragment {
         });
         return rootView;
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        imageHelper = null;
     }
 }

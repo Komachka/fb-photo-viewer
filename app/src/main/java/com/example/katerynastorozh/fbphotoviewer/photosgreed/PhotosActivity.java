@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.katerynastorozh.fbphotoviewer.R;
 import com.example.katerynastorozh.fbphotoviewer.login.LoginActivity;
+import com.example.katerynastorozh.fbphotoviewer.utils.ImageHelper;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -34,6 +35,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.ALBUM_ID;
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.USER_PHOTOS_PERMISSION;
+
 public class PhotosActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     final String LOG_TAG = PhotosActivity.class.getSimpleName();
@@ -43,12 +47,14 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     ImageView accountButton;
     ImageView homeButton;
     ProfileTracker profileTracker;
+    ImageHelper imageHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
-        String albumID = getIntent().getStringExtra(getResources().getString(R.string.ALBUM_ID));
+        imageHelper = new ImageHelper(this);
+        String albumID = getIntent().getStringExtra(ALBUM_ID);
 
         accountButton = (ImageView) findViewById(R.id.account_button);
         homeButton = (ImageView) findViewById(R.id.home_button);
@@ -70,13 +76,13 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             protected void onCurrentProfileChanged (Profile oldProfile, Profile currentProfile) {
                 if (currentProfile != null) {
-                    displayProfilePic(currentProfile);
+                    imageHelper.displayProfilePic(currentProfile, accountButton);
                 }
             }
         };
         Profile currentProfile = Profile.getCurrentProfile();
         if (currentProfile != null) {
-            displayProfilePic(currentProfile);
+            imageHelper.displayProfilePic(currentProfile, accountButton);
         }
         else {
             Profile.fetchProfileForCurrentAccessToken();
@@ -89,7 +95,7 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void createRequest(String albomID) {
-        if (AccessToken.getCurrentAccessToken().getPermissions().contains(getResources().getString(R.string.USER_PHOTOS_PERMISSION))) {
+        if (AccessToken.getCurrentAccessToken().getPermissions().contains(USER_PHOTOS_PERMISSION)) {
             GraphRequest request = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/" + albomID + "/photos",
@@ -97,9 +103,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
-                            /* handle the result */
-
-
                             try {
                                 JSONObject jsonResponce = response.getJSONObject();
                                 Log.d(LOG_TAG, jsonResponce.toString());
@@ -149,23 +152,6 @@ public class PhotosActivity extends AppCompatActivity implements View.OnClickLis
             popup.show();
         }
     }
-
-
-    private void displayProfilePic(Profile profile) {
-        Uri uri = profile.getProfilePictureUri(28, 28);
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(30)
-                .oval(false)
-                .build();
-        Picasso.with(this)
-                .load(uri)
-                .placeholder(R.drawable.progress_animation)
-                .transform(transformation)
-                .centerCrop()
-                .fit()
-                .into(accountButton);
-    }
-
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {

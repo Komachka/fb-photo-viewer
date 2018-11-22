@@ -17,6 +17,9 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.PHOTOS_DATA;
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.SLIDER_POSITION;
+
 /**
  * Created by kateryna on 18.11.18.
  */
@@ -68,8 +71,8 @@ public class PhotosAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PhotoItemViewActivity.class);
-                intent.putStringArrayListExtra(view.getContext().getResources().getString(R.string.PHOTOS_DATA), (ArrayList<String>) pictures);
-                intent.putExtra(view.getContext().getResources().getString(R.string.SLIDER_POSITION), position);
+                intent.putStringArrayListExtra(PHOTOS_DATA, (ArrayList<String>) pictures);
+                intent.putExtra(SLIDER_POSITION, position);
                 view.getContext().startActivity(intent);
 
             }

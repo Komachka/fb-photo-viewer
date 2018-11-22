@@ -19,6 +19,9 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.EMAIL_PERMISSION;
+import static com.example.katerynastorozh.fbphotoviewer.utils.Constants.USER_PHOTOS_PERMISSION;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     public CallbackManager callbackManager;
@@ -32,8 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager = CallbackManager.Factory.create();
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList(getResources().getString(R.string.EMAIL_PERMISSION)));
-        loginButton.setReadPermissions(Arrays.asList(getResources().getString(R.string.USER_PHOTOS_PERMISSION)));
+        loginButton.setReadPermissions(Arrays.asList(EMAIL_PERMISSION));
+        loginButton.setReadPermissions(Arrays.asList(USER_PHOTOS_PERMISSION));
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -78,8 +81,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
             Toast.makeText(this, R.string.login_first, Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @Override
